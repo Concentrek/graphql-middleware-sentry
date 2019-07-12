@@ -73,7 +73,9 @@ function captureException<Context>(
   if ((reportError && reportError(error)) || reportError === undefined) {
     sentryInstance.withScope(scope => {
       withScope(scope, error, ctx)
-      sentryInstance.captureException(error)
+      return new Promise(resolve => {
+        sentryInstance.captureException(error, resolve)
+      })
     })
   }
 }
